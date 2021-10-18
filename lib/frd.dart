@@ -1,35 +1,25 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:music_player_app/screens/Songspage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'screens/Songspage1.dart';
 
-class Home extends StatefulWidget {
-  final String albumname;
-  String user_name;
-  Home(this.albumname, this.user_name);
+class frd extends StatefulWidget {
+  //const frd({ Key? key }) : super(key: key);
+  String collectionname, user_name;
+  frd(this.collectionname, this.user_name);
   @override
-  _HomeState createState() => _HomeState(albumname, user_name);
+  _frdState createState() => _frdState(collectionname, user_name);
 }
 
-class _HomeState extends State<Home> {
-  String albumname;
-  String user_name;
-  _HomeState(String albumname, String user_name) {
-    this.albumname = albumname;
-    this.user_name = user_name;
-  }
-
-  List _list;
+class _frdState extends State<frd> {
+  String collectionname, user_name;
+  List _list = [];
+  _frdState(this.collectionname, this.user_name);
   @override
-  void initState() {
-    super.initState();
-    //initPlatformState();
-  }
-
   Widget build(BuildContext context) {
     return Card(
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
-            .collection(albumname)
+            .collection(collectionname)
             .orderBy('song_name')
             .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -60,17 +50,20 @@ class _HomeState extends State<Home> {
         onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => Songspage(
-                      song_name: documentSnapshot.data()["song_name"],
+                builder: (context) => Songspage1(
+                      song_name:
+                          documentSnapshot.data()["song_name"].toString(),
 
-                      artist_name: documentSnapshot.data()["artist_name"],
-                      song_url: documentSnapshot.data()["song_url"],
-                      image_url: documentSnapshot.data()["image_url"],
+                      artist_name:
+                          documentSnapshot.data()["artist_name"].toString(),
+                      song_url: documentSnapshot.data()["song_url"].toString(),
+                      image_url:
+                          documentSnapshot.data()["image_url"].toString(),
                       //index: _list.indexOf(song_name),
                       list: _list,
                       i: 0,
-                      user_name: user_name,
-                      albumname: albumname,
+                      // user_name: user_name,
+                      // albumname: 'Love',
                     ))),
         child: Card(
           child: Padding(

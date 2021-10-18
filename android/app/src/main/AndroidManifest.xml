@@ -9,6 +9,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="music_player_app"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
             <meta-data
     android:name="com.google.android.gms.ads.APPLICATION_ID"

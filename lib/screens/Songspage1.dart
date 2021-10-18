@@ -7,12 +7,12 @@ import 'package:audio_manager/audio_manager.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import '../frd.dart';
 
-class Songspage extends StatefulWidget {
+class Songspage1 extends StatefulWidget {
   String song_name, artist_name, song_url, image_url, user_name, albumname;
   int i;
   //int index;
   List list;
-  Songspage({
+  Songspage1({
     this.song_name,
     this.artist_name,
     this.song_url,
@@ -27,7 +27,7 @@ class Songspage extends StatefulWidget {
       song_url, image_url, i, user_name, albumname);
 }
 
-class _SongspageState extends State<Songspage> {
+class _SongspageState extends State<Songspage1> {
   List list;
   int i;
   AsyncSnapshot<QuerySnapshot> snapshot;
@@ -232,6 +232,9 @@ class _SongspageState extends State<Songspage> {
                 // //max: duration.inMilliseconds.roundToDouble(),
                 // max: double.infinity,
                 value: _slider ?? 0,
+                // divisions: (audioManagerInstance.duration.inSeconds)
+                //     // audioManagerInstance.position.inMilliseconds)
+                //     .round(),
                 // min: 0,
                 // max: duration.inSeconds.roundToDouble(),
                 // divisions: duration.inSeconds.roundToDouble().toInt(),
@@ -326,7 +329,7 @@ class _SongspageState extends State<Songspage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Songspage(
+                                builder: (context) => Songspage1(
                                       song_name: list[(k + (list.length)) %
                                               (list.length)]["song_name"]
                                           .toString(),
@@ -423,7 +426,7 @@ class _SongspageState extends State<Songspage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Songspage(
+                              builder: (context) => Songspage1(
                                     song_name: list[(k) % (list.length)]
                                             ["song_name"]
                                         .toString(),
