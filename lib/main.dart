@@ -23,25 +23,26 @@ class _MyAppState extends State<MyApp> {
   List tabs = [
     //Home('songs'),
     //profile('ravi', 'ravi@gmail.com'),
-    SignIn(),
+    Albums("ravi", "ravi@gmail.com"),
     Upload(),
   ];
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: "Music Player App",
+        title: "Melody",
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
         home: Scaffold(
+          //appBar: AppBar(title:Text("Melody"),),
           body: tabs[currentindex],
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: currentindex,
             items: [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                label: "Profile",
+                label: "Albums",
               ),
               // BottomNavigationBarItem(
               //   icon: Icon(Icons.cloud_upload),

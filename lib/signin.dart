@@ -20,7 +20,11 @@ class SignIn extends StatelessWidget {
     return MaterialApp(
         home: Scaffold(
             //backgroundImage: AssetImage('assets/download.jpg'),
+            resizeToAvoidBottomInset: false,
             body: Container(
+                height: queryData.size.height,
+                margin: EdgeInsets.fromLTRB(0, 15.0, 0, 0),
+                padding: EdgeInsets.all(15.0),
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.5),
                   image: DecorationImage(
@@ -36,20 +40,25 @@ class SignIn extends StatelessWidget {
                 child: Center(
                     child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  // crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    CircleAvatar(
-                      radius: 50.0,
-                      backgroundImage: AssetImage('images/logo.jpg'),
+                    Flexible(
+                      child: CircleAvatar(
+                        radius: 50.0,
+                        backgroundImage: AssetImage('images/logo.jpg'),
+                      ),
                     ),
-                    Text(
-                      "MELODY",
-                      style: TextStyle(
-                        fontSize: 30.0,
-                        color: Colors.white,
+                    Flexible(
+                      child: Text(
+                        "MELODY",
+                        style: TextStyle(
+                          fontSize: 30.0,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                     Container(
-                      height: queryData.size.height / 2,
+                      height: (queryData.size.height * 3) / 5,
                       width: queryData.size.width,
                       color: Colors.transparent,
                       child: Container(
@@ -59,8 +68,11 @@ class SignIn extends StatelessWidget {
                               color: Colors.green[800],
                               //border: BorderRadius.only(topLeft: 30.0 ),
                               borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(50.0),
-                                  topRight: Radius.circular(50.0))),
+                                topLeft: Radius.circular(50.0),
+                                topRight: Radius.circular(50.0),
+                                bottomLeft: Radius.circular(50.0),
+                                bottomRight: Radius.circular(50.0),
+                              )),
                           child: new Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [

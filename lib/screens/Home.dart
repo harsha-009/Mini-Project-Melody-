@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player_app/screens/Songspage.dart';
+import 'package:audio_manager/audio_manager.dart';
 
 class Home extends StatefulWidget {
   final String albumname;
@@ -17,8 +18,8 @@ class _HomeState extends State<Home> {
     this.albumname = albumname;
     this.user_name = user_name;
   }
-
-  List _list;
+  var newaudioManagerInstance = AudioManager.instance;
+  List list1;
   @override
   void initState() {
     super.initState();
@@ -38,14 +39,14 @@ class _HomeState extends State<Home> {
               child: CircularProgressIndicator(),
             );
           } else {
-            _list = snapshot.data.docs;
+            list1 = snapshot.data.docs;
 
             return ListView.custom(
                 childrenDelegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
-                return buildList(context, _list[index]);
+                return buildList(context, list1[index]);
               },
-              childCount: _list.length,
+              childCount: list1.length,
             ));
           }
         },
@@ -57,21 +58,32 @@ class _HomeState extends State<Home> {
     //var song_name = documentSnapshot.data()["song_name"];
     return Card(
       child: InkWell(
-        onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => Songspage(
-                      song_name: documentSnapshot.data()["song_name"],
+        onTap: () {
+          setState(() {
+            // if (newaudioManagerInstance.isPlaying) {
+            //   AudioManager.instance.release();
+            //   //super.dispose();
+            // }
 
-                      artist_name: documentSnapshot.data()["artist_name"],
-                      song_url: documentSnapshot.data()["song_url"],
-                      image_url: documentSnapshot.data()["image_url"],
-                      //index: _list.indexOf(song_name),
-                      list: _list,
-                      i: 0,
-                      user_name: user_name,
-                      albumname: albumname,
-                    ))),
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Songspage(
+                          song_name: documentSnapshot.data()["song_name"],
+
+                          artist_name: documentSnapshot.data()["artist_name"],
+                          song_url: documentSnapshot.data()["song_url"],
+                          image_url: documentSnapshot.data()["image_url"],
+                          //index: _list.indexOf(song_name),
+                          list: list1,
+                          i: 0,
+                          user_name: user_name,
+                          albumname: albumname,
+                          slider_value: 0,
+                          // audioManagerInstance: newaudioManagerInstance,
+                        )));
+          });
+        },
         child: Card(
           child: Padding(
             padding: EdgeInsets.all(20.0),

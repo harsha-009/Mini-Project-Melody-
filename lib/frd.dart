@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'screens/Songspage1.dart';
+import 'screens/Songspage.dart';
 
 class frd extends StatefulWidget {
   //const frd({ Key? key }) : super(key: key);
@@ -47,24 +47,24 @@ class _frdState extends State<frd> {
     //var song_name = documentSnapshot.data()["song_name"];
     return Card(
       child: InkWell(
-        onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => Songspage1(
-                      song_name:
-                          documentSnapshot.data()["song_name"].toString(),
+        // onTap: () => Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => Songspage(
+        //               song_name:
+        //                   documentSnapshot.data()["song_name"].toString(),
 
-                      artist_name:
-                          documentSnapshot.data()["artist_name"].toString(),
-                      song_url: documentSnapshot.data()["song_url"].toString(),
-                      image_url:
-                          documentSnapshot.data()["image_url"].toString(),
-                      //index: _list.indexOf(song_name),
-                      list: _list,
-                      i: 0,
-                      // user_name: user_name,
-                      // albumname: 'Love',
-                    ))),
+        //               artist_name:
+        //                   documentSnapshot.data()["artist_name"].toString(),
+        //               song_url: documentSnapshot.data()["song_url"].toString(),
+        //               image_url:
+        //                   documentSnapshot.data()["image_url"].toString(),
+        //               //index: _list.indexOf(song_name),
+        //               list: _list,
+        //               i: 0,
+        //               // user_name: user_name,
+        //               // albumname: 'Love',
+        //             ))),
         child: Card(
           child: Padding(
             padding: EdgeInsets.all(20.0),

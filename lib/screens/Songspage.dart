@@ -6,11 +6,13 @@ import 'package:audio_manager/audio_manager.dart';
 //import 'package:just_audio/just_audio.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import '../frd.dart';
+import 'package:flutter/services.dart';
 
 class Songspage extends StatefulWidget {
   String song_name, artist_name, song_url, image_url, user_name, albumname;
   int i;
-  //int index;
+  double slider_value;
+  //var audioManagerInstance;
   List list;
   Songspage({
     this.song_name,
@@ -21,29 +23,61 @@ class Songspage extends StatefulWidget {
     this.i,
     this.user_name,
     this.albumname,
+    this.slider_value,
+    //this.audioManagerInstance,
   });
   @override
-  _SongspageState createState() => _SongspageState(list, song_name, artist_name,
-      song_url, image_url, i, user_name, albumname);
+  SongspageState createState() => SongspageState(
+        list,
+        song_name,
+        artist_name,
+        song_url,
+        image_url,
+        i,
+        user_name,
+        albumname,
+        slider_value,
+      );
 }
 
-class _SongspageState extends State<Songspage> {
+class SongspageState extends State<Songspage> {
   List list;
   int i;
+  double slider_value;
   AsyncSnapshot<QuerySnapshot> snapshot;
+
   String song_name, artist_name, song_url, image_url, user_name, albumname;
-  _SongspageState(this.list, this.song_name, this.artist_name, this.song_url,
-      this.image_url, this.i, this.user_name, this.albumname);
+  SongspageState(
+    this.list,
+    this.song_name,
+    this.artist_name,
+    this.song_url,
+    this.image_url,
+    this.i,
+    this.user_name,
+    this.albumname,
+    this.slider_value,
+  );
   //MusicPlayer musicPlayer;
   bool isplaying1 = false;
+  String platformVersion = 'Unknown';
   var audioManagerInstance = AudioManager.instance;
+  // if((AudioManager.instance).isPlaying())
+  // {
+  //    AudioManager.instance.release();
+  // }
+  // else
+  // {
+  //      audioManagerInstance=AudioManager.instance;
+  // }
+
   //audioManagerInstance.audioList=list;
-  final firestoreinstance = FirebaseFirestore.instance;
+  var firestoreinstance = FirebaseFirestore.instance;
   //double _currentSliderValue = 20;
   int k = 0;
-  double sv = 0;
+  //double sv = 0;
   //double duration = 250;
-  double _slider;
+  //double _slider;
   bool isPlaying = false;
   Duration duration;
   Duration position;
@@ -51,9 +85,14 @@ class _SongspageState extends State<Songspage> {
   @override
   void initState() {
     super.initState();
+    initPlatformState();
     setupAudio();
   }
 
+  // void dispose() {
+  //   AudioManager.instance.release();
+  //   super.dispose();
+  // }
   // @override
   // void dispose() {
   //   AudioManager.instance.release();
@@ -66,16 +105,17 @@ class _SongspageState extends State<Songspage> {
 //   // doc.data() is never undefined for query doc snapshots
 //   //console.log(doc.id, " => ", doc.data());
 // });
-    List<AudioInfo> _list = [];
-    list.forEach((item) => _list.add(AudioInfo(item["song_url"],
+    @override
+    List<AudioInfo> list1 = [];
+    list.forEach((item) => list1.add(AudioInfo(item["song_url"],
         title: item["song_name"],
         desc: item["artist_name"],
         coverUrl: item["image_url"])));
 
-    audioManagerInstance.audioList = _list;
+    audioManagerInstance.audioList = list1;
     audioManagerInstance.start(song_url, song_name,
         desc: artist_name, cover: image_url);
-    _slider = 0;
+    slider_value = 0;
     position = AudioManager.instance.position;
     duration = AudioManager.instance.duration;
     audioManagerInstance.onEvents((events, args) {
@@ -88,9 +128,11 @@ class _SongspageState extends State<Songspage> {
               "start load data callback, curIndex is ${AudioManager.instance.curIndex}");
           position = AudioManager.instance.position;
           duration = AudioManager.instance.duration;
-          _slider = 0;
+          slider_value = 0;
+          // setState(() {
+
+          // });
           AudioManager.instance.updateLrc("audio resource loading....");
-          //setState(() {});
 
           //setState(() {});
           break;
@@ -99,39 +141,62 @@ class _SongspageState extends State<Songspage> {
           //_error = null;
           //_sliderVolume = AudioManager.instance.volume;
 
-          setState(() {
-            position = AudioManager.instance.position;
-            duration = AudioManager.instance.duration;
-          });
+          position = AudioManager.instance.position;
+          duration = AudioManager.instance.duration;
+          setState(() {});
           // if you need to seek times, must after AudioManagerEvents.ready event invoked
           // AudioManager.instance.seekTo(Duration(seconds: 10));
           break;
         case AudioManagerEvents.seekComplete:
-          setState(() {
-            position = AudioManager.instance.position;
-            _slider = audioManagerInstance.position.inMilliseconds /
-                audioManagerInstance.duration.inMilliseconds;
-          });
+          position = AudioManager.instance.position;
+          slider_value = audioManagerInstance.position.inMilliseconds /
+              audioManagerInstance.duration.inMilliseconds;
+          setState(() {});
           break;
         case AudioManagerEvents.playstatus:
-          setState(() {
-            isPlaying = audioManagerInstance.isPlaying;
-          });
+          isPlaying = audioManagerInstance.isPlaying;
+          setState(() {});
           break;
         case AudioManagerEvents.timeupdate:
-          setState(() {
-            _slider = audioManagerInstance.position.inMilliseconds /
-                audioManagerInstance.duration.inMilliseconds;
-            audioManagerInstance.updateLrc(args["position"].toString());
-          });
+          slider_value = audioManagerInstance.position.inMilliseconds /
+              audioManagerInstance.duration.inMilliseconds;
+          setState(() {});
+          audioManagerInstance.updateLrc(args["position"].toString());
+
           break;
         case AudioManagerEvents.ended:
-          setState(() {
-            audioManagerInstance.next();
-          });
+          audioManagerInstance.next();
+          k++;
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Songspage(
+                        song_name:
+                            list[(k) % (list.length)]["song_name"].toString(),
+
+                        // audioManagerInstance=audioManagerInstance.previous();
+                        artist_name:
+                            list[(k) % (list.length)]["artist_name"].toString(),
+                        song_url:
+                            list[(k) % (list.length)]["song_url"].toString(),
+                        image_url:
+                            list[(k) % (list.length)]["image_url"].toString(),
+                        //index: _list.indexOf(song_name),
+                        list: list,
+                        i: k,
+                      )));
+
+          // songinfo(
+          //   list[audioManagerInstance.curIndex + 1]["song_name"],
+          //   list[audioManagerInstance.curIndex + 1]["artist_name"],
+          //   list[audioManagerInstance.curIndex + 1]["song_url"],
+          //   list[audioManagerInstance.curIndex + 1]["image_url"],
+          // );
+
+          //setState(() {});
           break;
         // case AudioManagerEvents.stop:
-        //   audioManagerInstance.stop();
+        //   //audioManagerInstance.stop();
         //   //setState(() {});
         //   break;
         default:
@@ -144,6 +209,19 @@ class _SongspageState extends State<Songspage> {
   // Future<void> initPlatformState() async {
   //   musicPlayer = MusicPlayer();
   // }
+  Future<void> initPlatformState() async {
+    String platformVersion1;
+    try {
+      platformVersion1 = await AudioManager.instance.platformVersion;
+    } on PlatformException {
+      platformVersion1 = 'Failed to get platform version.';
+    }
+    if (!mounted) return;
+
+    setState(() {
+      platformVersion = platformVersion1;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +269,7 @@ class _SongspageState extends State<Songspage> {
     );
   }
 
-  String _formatDuration(Duration d) {
+  String formatDuration(Duration d) {
     if (d == null) return "--:--";
     int minute = d.inMinutes;
     int second = (d.inSeconds > 60) ? (d.inSeconds % 60) : d.inSeconds;
@@ -206,7 +284,7 @@ class _SongspageState extends State<Songspage> {
     return Row(
       children: <Widget>[
         Text(
-          _formatDuration(audioManagerInstance.position),
+          formatDuration(audioManagerInstance.position),
           style: style,
         ),
         Expanded(
@@ -231,14 +309,16 @@ class _SongspageState extends State<Songspage> {
                 // min: double.negativeInfinity,
                 // //max: duration.inMilliseconds.roundToDouble(),
                 // max: double.infinity,
-                value: _slider ?? 0,
+                value: slider_value ?? 0,
+
+                // max: 6000000000000000000,
                 // min: 0,
                 // max: duration.inSeconds.roundToDouble(),
                 // divisions: duration.inSeconds.roundToDouble().toInt(),
                 //divisions: max,
                 onChanged: (value) {
                   setState(() {
-                    _slider = value;
+                    slider_value = value;
                   });
                 },
                 onChangeEnd: (value) {
@@ -256,7 +336,7 @@ class _SongspageState extends State<Songspage> {
           ),
         ),
         Text(
-          _formatDuration(audioManagerInstance.duration),
+          formatDuration(audioManagerInstance.duration),
           style: style,
         ),
       ],
