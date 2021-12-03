@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'frd.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class profile extends StatefulWidget {
   //const profile({ Key? key }) : super(key: key);
@@ -103,23 +104,39 @@ class _profileState extends State<profile> {
                 ),
               ),
             ),
+            // ListTile(
+            //   title: InkWell(
+            //     onTap: () {
+            //       Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //           builder: (context) =>
+            //               frd('downloads_$user_name', user_name),
+            //         ),
+            //       );
+            //       setState(() {
+            //         // item = items[0];
+            //         // Navigator.of(context).pop();
+            //       });
+            //     },
+            //     child: Text(
+            //       'My Downloads',
+            //       style: TextStyle(fontSize: 20),
+            //     ),
+            //   ),
+            // ),
             ListTile(
               title: InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          frd('downloads_$user_name', user_name),
-                    ),
-                  );
                   setState(() {
                     // item = items[0];
                     // Navigator.of(context).pop();
+                    FirebaseAuth.instance.signOut();
+                    Navigator.pushNamed(context, 'signin');
                   });
                 },
                 child: Text(
-                  'My Downloads',
+                  'Logout',
                   style: TextStyle(fontSize: 20),
                 ),
               ),

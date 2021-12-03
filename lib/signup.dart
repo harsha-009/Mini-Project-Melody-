@@ -18,6 +18,7 @@ class SignUp extends StatelessWidget {
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
             //backgroundImage: AssetImage('assets/download.jpg'),
             resizeToAvoidBottomInset: false,
@@ -25,7 +26,7 @@ class SignUp extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.5),
                   image: DecorationImage(
-                    image: AssetImage("images/background.jpg"),
+                    image: AssetImage("assets/images/background.jpg"),
                     //               ColoredBox(
                     //   color: Colors.black.withOpacity(0.5), // 0: Light, 1: Dark
                     // ),
@@ -41,7 +42,8 @@ class SignUp extends StatelessWidget {
                     Flexible(
                       child: CircleAvatar(
                         radius: 50.0,
-                        backgroundImage: AssetImage('images/logo.jpg'),
+                        backgroundImage:
+                            AssetImage('assets/images/appicon.jpg'),
                       ),
                     ),
                     Flexible(
@@ -174,11 +176,12 @@ class SignUp extends StatelessWidget {
                                       password: pass_word,
                                     );
                                     if (newUser != null) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => SignIn()),
-                                      );
+                                      Navigator.pushNamed(context, 'albums');
+                                      // Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //       builder: (context) => SignIn()),
+                                      // );
                                     }
                                   } catch (e) {
                                     print(e);
@@ -192,6 +195,16 @@ class SignUp extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(context, 'signin');
+                                },
+                                child: Text(
+                                  "Existed User? SignIn",
+                                  style: TextStyle(
+                                      color: Colors.yellow, fontSize: 20.0),
+                                ),
+                              )
                             ],
                           )),
                     ),

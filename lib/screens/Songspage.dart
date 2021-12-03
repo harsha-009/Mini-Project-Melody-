@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:audio_manager/audio_manager.dart';
 //import 'package:just_audio/just_audio.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import '../frd.dart';
+//import '../frd.dart';
 import 'package:flutter/services.dart';
+import 'Home.dart';
+//import 'package:flutter_downloader/flutter_downloader.dart';
 
 class Songspage extends StatefulWidget {
   String song_name, artist_name, song_url, image_url, user_name, albumname;
-  int i;
+
   double slider_value;
   //var audioManagerInstance;
   List list;
@@ -20,7 +22,6 @@ class Songspage extends StatefulWidget {
     this.song_url,
     this.image_url,
     this.list,
-    this.i,
     this.user_name,
     this.albumname,
     this.slider_value,
@@ -33,7 +34,6 @@ class Songspage extends StatefulWidget {
         artist_name,
         song_url,
         image_url,
-        i,
         user_name,
         albumname,
         slider_value,
@@ -42,7 +42,7 @@ class Songspage extends StatefulWidget {
 
 class SongspageState extends State<Songspage> {
   List list;
-  int i;
+
   double slider_value;
   AsyncSnapshot<QuerySnapshot> snapshot;
 
@@ -53,7 +53,7 @@ class SongspageState extends State<Songspage> {
     this.artist_name,
     this.song_url,
     this.image_url,
-    this.i,
+    //this.i,
     this.user_name,
     this.albumname,
     this.slider_value,
@@ -61,6 +61,8 @@ class SongspageState extends State<Songspage> {
   //MusicPlayer musicPlayer;
   bool isplaying1 = false;
   String platformVersion = 'Unknown';
+  // int i = AudioManager.instance.curIndex;
+  int i = -1;
   var audioManagerInstance = AudioManager.instance;
   // if((AudioManager.instance).isPlaying())
   // {
@@ -74,13 +76,28 @@ class SongspageState extends State<Songspage> {
   //audioManagerInstance.audioList=list;
   var firestoreinstance = FirebaseFirestore.instance;
   //double _currentSliderValue = 20;
-  int k = 0;
+
   //double sv = 0;
   //double duration = 250;
   //double _slider;
   bool isPlaying = false;
   Duration duration;
   Duration position;
+  bool col = false;
+
+//   const usersRef = firestoreinstance.collection('favourites_$username').doc('id')
+
+// usersRef.get()
+//   .then((docSnapshot) => {
+//     if (docSnapshot.exists) {
+//       usersRef.onSnapshot((doc) => {
+//         // do stuff with the data
+//       });
+//     } else {
+//       usersRef.set({...}) // create the document
+//     }
+// });
+
   //Duration duration=await musicPlayer.onDuration();
   @override
   void initState() {
@@ -166,25 +183,37 @@ class SongspageState extends State<Songspage> {
           break;
         case AudioManagerEvents.ended:
           audioManagerInstance.next();
-          k++;
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => Songspage(
-                        song_name:
-                            list[(k) % (list.length)]["song_name"].toString(),
+          i++;
+          setState(
+            () {
+              song_name = list[(i) % (list.length)]["song_name"].toString();
 
-                        // audioManagerInstance=audioManagerInstance.previous();
-                        artist_name:
-                            list[(k) % (list.length)]["artist_name"].toString(),
-                        song_url:
-                            list[(k) % (list.length)]["song_url"].toString(),
-                        image_url:
-                            list[(k) % (list.length)]["image_url"].toString(),
-                        //index: _list.indexOf(song_name),
-                        list: list,
-                        i: k,
-                      )));
+              // audioManagerInstance=audioManagerInstance.previous();
+              artist_name = list[(i) % (list.length)]["artist_name"].toString();
+              song_url = list[(i) % (list.length)]["song_url"].toString();
+              image_url = list[(i) % (list.length)]["image_url"].toString();
+              //index: _list.indexOf(song_name),
+              list = list;
+            },
+          );
+          // Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (context) => Songspage(
+          //               song_name:
+          //                   list[(k) % (list.length)]["song_name"].toString(),
+
+          //               // audioManagerInstance=audioManagerInstance.previous();
+          //               artist_name:
+          //                   list[(k) % (list.length)]["artist_name"].toString(),
+          //               song_url:
+          //                   list[(k) % (list.length)]["song_url"].toString(),
+          //               image_url:
+          //                   list[(k) % (list.length)]["image_url"].toString(),
+          //               //index: _list.indexOf(song_name),
+          //               list: list,
+          //               i: k,
+          //             )));
 
           // songinfo(
           //   list[audioManagerInstance.curIndex + 1]["song_name"],
@@ -236,18 +265,32 @@ class SongspageState extends State<Songspage> {
           child: Center(
               child: Column(
             children: <Widget>[
+              // Card(
+              //   child: IconButton(
+              //     //alignment: Alignment.topLeft,
+              //     icon: Icon(Icons.close),
+              //     //padding: EdgeInsets.all(20.0),
+              //     onPressed: () {
+              //       Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //             builder: (context) => Home(albumname, user_name)),
+              //       );
+              //     },
+              //   ),
+              // ),
               SizedBox(
                 height: 30.0,
               ),
               Card(
-                child: Image.network(widget.image_url, height: 350.0),
+                child: Image.network(image_url, height: 350.0),
                 elevation: 10.0,
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.05,
               ),
               Text(
-                widget.song_name,
+                song_name,
                 style: TextStyle(
                   fontSize: 25.0,
                 ),
@@ -256,7 +299,7 @@ class SongspageState extends State<Songspage> {
                 height: 15.0,
               ),
               Text(
-                widget.artist_name,
+                artist_name,
                 style: TextStyle(
                   fontSize: 20.0,
                 ),
@@ -280,67 +323,76 @@ class SongspageState extends State<Songspage> {
   }
 
   Widget songProgress(BuildContext context) {
-    var style = TextStyle(color: Colors.black);
-    return Row(
-      children: <Widget>[
-        Text(
-          formatDuration(audioManagerInstance.position),
-          style: style,
-        ),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5),
-            child: SliderTheme(
-              data: SliderTheme.of(context).copyWith(
-                trackHeight: 2,
-                thumbColor: Colors.blueAccent,
-                overlayColor: Colors.blue,
-                thumbShape: RoundSliderThumbShape(
-                  disabledThumbRadius: 5,
-                  enabledThumbRadius: 5,
+    try {
+      var style = TextStyle(color: Colors.black);
+      return Row(
+        children: <Widget>[
+          Text(
+            formatDuration(audioManagerInstance.position),
+            style: style,
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5),
+              child: SliderTheme(
+                data: SliderTheme.of(context).copyWith(
+                  trackHeight: 2,
+                  thumbColor: Colors.blueAccent,
+                  overlayColor: Colors.blue,
+                  thumbShape: RoundSliderThumbShape(
+                    disabledThumbRadius: 5,
+                    enabledThumbRadius: 5,
+                  ),
+                  overlayShape: RoundSliderOverlayShape(
+                    overlayRadius: 10,
+                  ),
+                  activeTrackColor: Colors.blueAccent,
+                  inactiveTrackColor: Colors.grey,
                 ),
-                overlayShape: RoundSliderOverlayShape(
-                  overlayRadius: 10,
-                ),
-                activeTrackColor: Colors.blueAccent,
-                inactiveTrackColor: Colors.grey,
-              ),
-              child: Slider(
-                // min: double.negativeInfinity,
-                // //max: duration.inMilliseconds.roundToDouble(),
-                // max: double.infinity,
-                value: slider_value ?? 0,
+                child: Slider(
+                  // min: double.negativeInfinity,
+                  // //max: duration.inMilliseconds.roundToDouble(),
+                  // max: double.infinity,
 
-                // max: 6000000000000000000,
-                // min: 0,
-                // max: duration.inSeconds.roundToDouble(),
-                // divisions: duration.inSeconds.roundToDouble().toInt(),
-                //divisions: max,
-                onChanged: (value) {
-                  setState(() {
-                    slider_value = value;
-                  });
-                },
-                onChangeEnd: (value) {
-                  if (audioManagerInstance.duration != null) {
-                    Duration msec = Duration(
-                        milliseconds:
-                            (audioManagerInstance.duration.inMilliseconds *
-                                    value)
-                                .round());
-                    audioManagerInstance.seekTo(msec);
-                  }
-                },
+                  value: slider_value ?? 0,
+
+                  // max: 6000000000000000000,
+                  // min: 0,
+                  // max: duration.inSeconds.roundToDouble(),
+                  // divisions: duration.inSeconds.roundToDouble().toInt(),
+                  //divisions: max,
+                  onChanged: (value) {
+                    setState(() {
+                      slider_value = value;
+                    });
+                  },
+                  onChangeEnd: (value) {
+                    if (audioManagerInstance.duration != null) {
+                      Duration msec = Duration(
+                          milliseconds:
+                              (audioManagerInstance.duration.inMilliseconds *
+                                      value)
+                                  .round());
+                      audioManagerInstance.seekTo(msec);
+                    }
+                  },
+                ),
               ),
             ),
           ),
-        ),
-        Text(
-          formatDuration(audioManagerInstance.duration),
-          style: style,
-        ),
-      ],
-    );
+          Text(
+            //print(audioManagerInstance.duration);
+            formatDuration(audioManagerInstance.duration),
+            style: style,
+          ),
+        ],
+      );
+    } on AssertionError {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+    ;
   }
 
   Widget bottomPanel() {
@@ -383,13 +435,26 @@ class SongspageState extends State<Songspage> {
                   "song_url": song_url.toString(),
                   "image_url": image_url.toString(),
                 };
+                if (col == false) {
+                  firestoreinstance
+                      .collection("favourites_$user_name")
+                      .doc(song_name)
+                      .set(data);
+                } //else {
+                //   firestoreinstance
+                //       .collection("favourites_$user_name")
+                //       .doc(song_name)
+                //       .delete();
+                // }
 
-                firestoreinstance
-                    .collection("favourites_$user_name")
-                    .doc(song_name)
-                    .set(data);
+                setState(() {
+                  col = !col;
+                });
               },
-              icon: Icon(EvaIcons.heart),
+              icon: Icon(
+                EvaIcons.heart,
+                color: col ? Colors.red : Colors.black,
+              ),
             ),
             CircleAvatar(
               child: Center(
@@ -399,43 +464,63 @@ class SongspageState extends State<Songspage> {
                       color: Colors.white,
                     ),
                     onPressed: () {
-                      setState(() {
-                        // _slider = 0.0;
-                        k = --i;
+                      i--;
+                      audioManagerInstance.previous();
+                      setState(
+                        () {
+                          // _slider = 0.0;
 
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Songspage(
-                                      song_name: list[(k + (list.length)) %
-                                              (list.length)]["song_name"]
-                                          .toString(),
-                                      // audioManagerInstance=audioManagerInstance.previous();
-                                      artist_name: list[(k + (list.length)) %
-                                              (list.length)]["artist_name"]
-                                          .toString(),
-                                      song_url: list[(k + (list.length)) %
-                                              (list.length)]["song_url"]
-                                          .toString(),
-                                      image_url: list[(k + (list.length)) %
-                                              (list.length)]["image_url"]
-                                          .toString(),
-                                      //index: _list.indexOf(song_name),
-                                      list: list,
-                                      i: k,
-                                    )));
-                        audioManagerInstance.previous();
-                        // songinfo(
-                        //   list[audioManagerInstance.curIndex - 1]["song_name"],
-                        //   list[audioManagerInstance.curIndex - 1]
-                        //       ["artist_name"],
-                        //   list[audioManagerInstance.curIndex - 1]["song_url"],
-                        //   list[audioManagerInstance.curIndex - 1]["image_url"],
-                        // );
+                          song_name = list[(i + (list.length)) % (list.length)]
+                                  ["song_name"]
+                              .toString();
+                          // audioManagerInstance=audioManagerInstance.previous();
+                          artist_name =
+                              list[(i + (list.length)) % (list.length)]
+                                      ["artist_name"]
+                                  .toString();
+                          song_url = list[(i + (list.length)) % (list.length)]
+                                  ["song_url"]
+                              .toString();
+                          image_url = list[(i + (list.length)) % (list.length)]
+                                  ["image_url"]
+                              .toString();
+                          //index: _list.indexOf(song_name),
+                          list = list;
+                          //i = k;
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => Songspage(
+                          //               song_name: list[(k + (list.length)) %
+                          //                       (list.length)]["song_name"]
+                          //                   .toString(),
+                          //               // audioManagerInstance=audioManagerInstance.previous();
+                          //               artist_name: list[(k + (list.length)) %
+                          //                       (list.length)]["artist_name"]
+                          //                   .toString(),
+                          //               song_url: list[(k + (list.length)) %
+                          //                       (list.length)]["song_url"]
+                          //                   .toString(),
+                          //               image_url: list[(k + (list.length)) %
+                          //                       (list.length)]["image_url"]
+                          //                   .toString(),
+                          //               //index: _list.indexOf(song_name),
+                          //               list: list,
+                          //               i: k,
+                          //             )));
 
-                        // (audioManagerInstance.curIndex)=(audioManagerInstance.curIndex)-1;
-                        // audioManagerInstance.curIndex=list[]
-                      });
+                          // songinfo(
+                          //   list[audioManagerInstance.curIndex - 1]["song_name"],
+                          //   list[audioManagerInstance.curIndex - 1]
+                          //       ["artist_name"],
+                          //   list[audioManagerInstance.curIndex - 1]["song_url"],
+                          //   list[audioManagerInstance.curIndex - 1]["image_url"],
+                          // );
+
+                          // (audioManagerInstance.curIndex)=(audioManagerInstance.curIndex)-1;
+                          // audioManagerInstance.curIndex=list[]
+                        },
+                      );
 
                       // Navigator.push(
                       //     context,
@@ -496,33 +581,48 @@ class SongspageState extends State<Songspage> {
                     color: Colors.white,
                   ),
                   onPressed: () {
+                    i++;
+                    audioManagerInstance.next();
                     setState(() {
                       //_slider = 0.0;
-                      k = ++i;
 
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Songspage(
-                                    song_name: list[(k) % (list.length)]
-                                            ["song_name"]
-                                        .toString(),
+                      song_name =
+                          list[(i) % (list.length)]["song_name"].toString();
 
-                                    // audioManagerInstance=audioManagerInstance.previous();
-                                    artist_name: list[(k) % (list.length)]
-                                            ["artist_name"]
-                                        .toString(),
-                                    song_url: list[(k) % (list.length)]
-                                            ["song_url"]
-                                        .toString(),
-                                    image_url: list[(k) % (list.length)]
-                                            ["image_url"]
-                                        .toString(),
-                                    //index: _list.indexOf(song_name),
-                                    list: list,
-                                    i: k,
-                                  )));
-                      audioManagerInstance.next();
+                      // audioManagerInstance=audioManagerInstance.previous();
+                      artist_name =
+                          list[(i) % (list.length)]["artist_name"].toString();
+                      song_url =
+                          list[(i) % (list.length)]["song_url"].toString();
+                      image_url =
+                          list[(i) % (list.length)]["image_url"].toString();
+                      //index: _list.indexOf(song_name),
+                      list = list;
+                      //audioManagerInstance.audioList[k];
+                      //i = k;
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => Songspage(
+                      //               song_name: list[(k) % (list.length)]
+                      //                       ["song_name"]
+                      //                   .toString(),
+
+                      //               // audioManagerInstance=audioManagerInstance.previous();
+                      //               artist_name: list[(k) % (list.length)]
+                      //                       ["artist_name"]
+                      //                   .toString(),
+                      //               song_url: list[(k) % (list.length)]
+                      //                       ["song_url"]
+                      //                   .toString(),
+                      //               image_url: list[(k) % (list.length)]
+                      //                       ["image_url"]
+                      //                   .toString(),
+                      //               //index: _list.indexOf(song_name),
+                      //               list: list,
+                      //               i: k,
+                      //             )));
+
                       // songinfo(
                       //   list[audioManagerInstance.curIndex + 1]["song_name"],
                       //   list[audioManagerInstance.curIndex + 1]["artist_name"],
@@ -558,19 +658,29 @@ class SongspageState extends State<Songspage> {
             ),
             IconButton(
               onPressed: () {
-                var data = {
-                  "song_name": song_name.toString(),
-                  "artist_name": artist_name.toString(),
-                  "song_url": song_url.toString(),
-                  "image_url": image_url.toString(),
-                };
+                Navigator.pushNamed(context, "profile");
+                // var data = {
+                //   "song_name": song_name.toString(),
+                //   "artist_name": artist_name.toString(),
+                //   "song_url": song_url.toString(),
+                //   "image_url": image_url.toString(),
+                // };
 
-                firestoreinstance
-                    .collection("downloads_$user_name")
-                    .doc(song_name)
-                    .set(data);
+                // firestoreinstance
+                //     .collection("downloads_$user_name")
+                //     .doc(song_name)
+                //     .set(data);
+
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //       builder: (context) => Home(albumname, user_name)),
+                // );
               },
-              icon: Icon(Icons.download),
+              icon: Icon(
+                Icons.person,
+                color: Colors.black,
+              ),
             ),
           ],
         ),

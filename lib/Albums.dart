@@ -22,13 +22,14 @@ class _AlbumsState extends State<Albums> {
           //actionsIconTheme: IconThemeData(color: Colors.yellow),
           actions: [
             IconButton(
-              icon: Icon(Icons.add),
+              icon: Icon(Icons.person),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => profile(user_name, e_mail)),
-                );
+                Navigator.pushNamed(context, 'profile');
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //       builder: (context) => profile(user_name, e_mail)),
+                // );
               },
             )
           ]),

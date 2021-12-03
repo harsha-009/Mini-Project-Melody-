@@ -59,30 +59,29 @@ class _HomeState extends State<Home> {
     return Card(
       child: InkWell(
         onTap: () {
-          setState(() {
-            // if (newaudioManagerInstance.isPlaying) {
-            //   AudioManager.instance.release();
-            //   //super.dispose();
-            // }
+          //setState(() {});
+          // if (newaudioManagerInstance.isPlaying) {
+          //   AudioManager.instance.release();
+          //   //super.dispose();
+          // }
 
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Songspage(
-                          song_name: documentSnapshot.data()["song_name"],
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Songspage(
+                        song_name: documentSnapshot.data()["song_name"],
 
-                          artist_name: documentSnapshot.data()["artist_name"],
-                          song_url: documentSnapshot.data()["song_url"],
-                          image_url: documentSnapshot.data()["image_url"],
-                          //index: _list.indexOf(song_name),
-                          list: list1,
-                          i: 0,
-                          user_name: user_name,
-                          albumname: albumname,
-                          slider_value: 0,
-                          // audioManagerInstance: newaudioManagerInstance,
-                        )));
-          });
+                        artist_name: documentSnapshot.data()["artist_name"],
+                        song_url: documentSnapshot.data()["song_url"],
+                        image_url: documentSnapshot.data()["image_url"],
+                        //index: _list.indexOf(song_name),
+                        list: list1,
+
+                        user_name: user_name,
+                        albumname: albumname,
+                        slider_value: 0,
+                        // audioManagerInstance: newaudioManagerInstance,
+                      )));
         },
         child: Card(
           child: Padding(

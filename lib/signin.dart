@@ -18,6 +18,7 @@ class SignIn extends StatelessWidget {
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
             //backgroundImage: AssetImage('assets/download.jpg'),
             resizeToAvoidBottomInset: false,
@@ -28,7 +29,7 @@ class SignIn extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.5),
                   image: DecorationImage(
-                    image: AssetImage("images/background.jpg"),
+                    image: AssetImage("assets/images/background.jpg"),
                     //               ColoredBox(
                     //   color: Colors.black.withOpacity(0.5), // 0: Light, 1: Dark
                     // ),
@@ -45,7 +46,8 @@ class SignIn extends StatelessWidget {
                     Flexible(
                       child: CircleAvatar(
                         radius: 50.0,
-                        backgroundImage: AssetImage('images/logo.jpg'),
+                        backgroundImage:
+                            AssetImage('assets/images/appicon.jpg'),
                       ),
                     ),
                     Flexible(
@@ -175,12 +177,13 @@ class SignIn extends StatelessWidget {
                                         await _auth.signInWithEmailAndPassword(
                                             email: e_mail, password: pass_word);
                                     if (user != null) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                Albums(user_name, e_mail)),
-                                      );
+                                      Navigator.pushNamed(context, 'albums');
+                                      // Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //       builder: (context) =>
+                                      //           Albums(user_name, e_mail)),
+                                      // );
                                     }
                                   } catch (e) {
                                     print(e);
@@ -194,6 +197,16 @@ class SignIn extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(context, 'signup');
+                                },
+                                child: Text(
+                                  "New User? SignUp",
+                                  style: TextStyle(
+                                      color: Colors.yellow, fontSize: 20.0),
+                                ),
+                              )
                             ],
                           )),
                     ),

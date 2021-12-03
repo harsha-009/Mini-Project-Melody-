@@ -10,7 +10,7 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="music_player_app"
         android:usesCleartextTraffic="true"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
             <meta-data
     android:name="com.google.android.gms.ads.APPLICATION_ID"
     android:value="ca-app-pub-6665765954949461~8831916485"/>
