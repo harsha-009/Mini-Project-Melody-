@@ -79,7 +79,7 @@ class _UploadState extends State<Upload> {
       };
 
       firestoreinstance
-          .collection("Divine")
+          .collection("Mass")
           .doc(songname.text)
           .set(data)
           .whenComplete(() => showDialog(

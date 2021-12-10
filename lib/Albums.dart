@@ -88,7 +88,13 @@ class _AlbumsState extends State<Albums> {
                       'Old',
                       style: TextStyle(fontSize: 24),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Home("Old", user_name)),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       shape: CircleBorder(),
                       fixedSize: Size.fromRadius(70),
@@ -99,7 +105,13 @@ class _AlbumsState extends State<Albums> {
                       'DJ',
                       style: TextStyle(fontSize: 24),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Home("DJ", user_name)),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       shape: CircleBorder(),
                       fixedSize: Size.fromRadius(70),
@@ -115,7 +127,13 @@ class _AlbumsState extends State<Albums> {
                       'Sad',
                       style: TextStyle(fontSize: 24),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Home("Sad", user_name)),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       shape: CircleBorder(),
                       fixedSize: Size.fromRadius(70),
@@ -126,7 +144,13 @@ class _AlbumsState extends State<Albums> {
                       'Mass',
                       style: TextStyle(fontSize: 24),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Home("Mass", user_name)),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       shape: CircleBorder(),
                       fixedSize: Size.fromRadius(70),
