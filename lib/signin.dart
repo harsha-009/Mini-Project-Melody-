@@ -6,10 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 void main() => runApp(SignIn());
 
 class SignIn extends StatelessWidget {
-  // This widget is the root of your application.
   String user_name;
-
-  //SignIn(this.user_name);
   final _auth = FirebaseAuth.instance;
   String e_mail;
   String pass_word;
@@ -20,7 +17,6 @@ class SignIn extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-            //backgroundImage: AssetImage('assets/download.jpg'),
             resizeToAvoidBottomInset: false,
             body: Container(
                 height: queryData.size.height,
@@ -30,9 +26,6 @@ class SignIn extends StatelessWidget {
                   color: Colors.black.withOpacity(0.5),
                   image: DecorationImage(
                     image: AssetImage("assets/images/background.jpg"),
-                    //               ColoredBox(
-                    //   color: Colors.black.withOpacity(0.5), // 0: Light, 1: Dark
-                    // ),
                     fit: BoxFit.cover,
                     colorFilter: new ColorFilter.mode(
                         Colors.black.withOpacity(0.7), BlendMode.dstATop),
@@ -41,7 +34,6 @@ class SignIn extends StatelessWidget {
                 child: Center(
                     child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  // crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Flexible(
                       child: CircleAvatar(
@@ -68,7 +60,6 @@ class SignIn extends StatelessWidget {
                               left: 30.0, right: 30.0, top: 30.0),
                           decoration: BoxDecoration(
                               color: Colors.green[800],
-                              //border: BorderRadius.only(topLeft: 30.0 ),
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(50.0),
                                 topRight: Radius.circular(50.0),
@@ -127,40 +118,6 @@ class SignIn extends StatelessWidget {
                                   pass_word = value;
                                 },
                               ),
-                              // TextField(
-                              //   decoration: InputDecoration(
-                              //     focusedBorder: OutlineInputBorder(
-                              //       borderSide: BorderSide(
-                              //           color: Colors.redAccent, width: 2.0),
-                              //       borderRadius: BorderRadius.circular(10.0),
-                              //     ),
-                              //     enabledBorder: OutlineInputBorder(
-                              //       borderSide: BorderSide(
-                              //           color: Colors.yellowAccent, width: 2.0),
-                              //       borderRadius: BorderRadius.circular(10.0),
-                              //     ),
-                              //     fillColor: Colors.white,
-                              //     filled: true,
-                              //     hintText: 'username',
-                              //   ),
-                              // ),
-                              // TextField(
-                              //   decoration: InputDecoration(
-                              //     focusedBorder: OutlineInputBorder(
-                              //       borderSide: BorderSide(
-                              //           color: Colors.redAccent, width: 2.0),
-                              //       borderRadius: BorderRadius.circular(10.0),
-                              //     ),
-                              //     enabledBorder: OutlineInputBorder(
-                              //       borderSide: BorderSide(
-                              //           color: Colors.yellowAccent, width: 2.0),
-                              //       borderRadius: BorderRadius.circular(10.0),
-                              //     ),
-                              //     fillColor: Colors.white,
-                              //     filled: true,
-                              //     hintText: 'Confirm password',
-                              //   ),
-                              // ),
                               ElevatedButton(
                                 style: ButtonStyle(
                                   backgroundColor:
@@ -168,22 +125,12 @@ class SignIn extends StatelessWidget {
                                           Colors.black),
                                 ),
                                 onPressed: () async {
-                                  // Validate will return true if the form is valid, or false if
-                                  // the form is invalid.
-                                  //if (_formKey.currentState!.validate()) {
-                                  // Process data.
                                   try {
                                     final user =
                                         await _auth.signInWithEmailAndPassword(
                                             email: e_mail, password: pass_word);
                                     if (user != null) {
                                       Navigator.pushNamed(context, 'albums');
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //       builder: (context) =>
-                                      //           Albums(user_name, e_mail)),
-                                      // );
                                     }
                                   } catch (e) {
                                     print(e);

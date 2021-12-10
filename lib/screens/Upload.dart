@@ -14,37 +14,10 @@ class Upload extends StatefulWidget {
 }
 
 class _UploadState extends State<Upload> {
-  // static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-  //   nonPersonalizedAds: true,
-  // );
-
-  // BannerAd _bannerAd1;
-
-  // BannerAd createBannerAd() {
-  //   return BannerAd(
-  //     adUnitId: 'ca-app-pub-6665765954949461/6038232188',
-  //     size: AdSize.banner,
-  //   );
-  // }
-
   @override
   void initState() {
-    // FirebaseAdMob.instance
-    //     .initialize(appId: 'ca-app-pub-6665765954949461~8831916485');
-    // _bannerAd1 = createBannerAd();
     super.initState();
-
-    // show_banner_ads1();
   }
-
-  // void show_banner_ads1() {
-  //   _bannerAd1
-  //     ..load()
-  //     ..show(
-  //       anchorOffset: 0.0,
-  //       anchorType: AnchorType.bottom,
-  //     );
-  // }
 
   TextEditingController songname = TextEditingController();
   TextEditingController artistname = TextEditingController();
@@ -107,7 +80,7 @@ class _UploadState extends State<Upload> {
 
       firestoreinstance
           .collection("Divine")
-          .doc()
+          .doc(songname.text)
           .set(data)
           .whenComplete(() => showDialog(
                 context: context,

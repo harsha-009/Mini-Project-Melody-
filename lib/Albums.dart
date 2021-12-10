@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:music_player_app/screens/Home.dart';
-import 'profile.dart';
 
 class Albums extends StatefulWidget {
   //const Albums({Key key}) : super(key: key);

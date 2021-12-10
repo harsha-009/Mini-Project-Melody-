@@ -121,43 +121,6 @@ class SignUp extends StatelessWidget {
                                   pass_word = value;
                                 },
                               ),
-                              // TextField(
-                              //   decoration: InputDecoration(
-                              //     focusedBorder: OutlineInputBorder(
-                              //       borderSide: BorderSide(
-                              //           color: Colors.redAccent, width: 2.0),
-                              //       borderRadius: BorderRadius.circular(10.0),
-                              //     ),
-                              //     enabledBorder: OutlineInputBorder(
-                              //       borderSide: BorderSide(
-                              //           color: Colors.yellowAccent, width: 2.0),
-                              //       borderRadius: BorderRadius.circular(10.0),
-                              //     ),
-                              //     fillColor: Colors.white,
-                              //     filled: true,
-                              //     hintText: 'username',
-                              //   ),
-                              //   onChanged: (value) {
-                              //     user_name = value;
-                              //   },
-                              // ),
-                              // TextField(
-                              //   decoration: InputDecoration(
-                              //     focusedBorder: OutlineInputBorder(
-                              //       borderSide: BorderSide(
-                              //           color: Colors.redAccent, width: 2.0),
-                              //       borderRadius: BorderRadius.circular(10.0),
-                              //     ),
-                              //     enabledBorder: OutlineInputBorder(
-                              //       borderSide: BorderSide(
-                              //           color: Colors.yellowAccent, width: 2.0),
-                              //       borderRadius: BorderRadius.circular(10.0),
-                              //     ),
-                              //     fillColor: Colors.white,
-                              //     filled: true,
-                              //     hintText: 'Confirm password',
-                              //   ),
-                              // ),
                               ElevatedButton(
                                 style: ButtonStyle(
                                   backgroundColor:
@@ -165,10 +128,6 @@ class SignUp extends StatelessWidget {
                                           Colors.black),
                                 ),
                                 onPressed: () async {
-                                  // Validate will return true if the form is valid, or false if
-                                  // the form is invalid.
-                                  //if (_formKey.currentState!.validate()) {
-                                  // Process data.
                                   try {
                                     final newUser = await _auth
                                         .createUserWithEmailAndPassword(
@@ -177,11 +136,6 @@ class SignUp extends StatelessWidget {
                                     );
                                     if (newUser != null) {
                                       Navigator.pushNamed(context, 'albums');
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //       builder: (context) => SignIn()),
-                                      // );
                                     }
                                   } catch (e) {
                                     print(e);

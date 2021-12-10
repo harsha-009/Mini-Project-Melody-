@@ -104,33 +104,10 @@ class _profileState extends State<profile> {
                 ),
               ),
             ),
-            // ListTile(
-            //   title: InkWell(
-            //     onTap: () {
-            //       Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //           builder: (context) =>
-            //               frd('downloads_$user_name', user_name),
-            //         ),
-            //       );
-            //       setState(() {
-            //         // item = items[0];
-            //         // Navigator.of(context).pop();
-            //       });
-            //     },
-            //     child: Text(
-            //       'My Downloads',
-            //       style: TextStyle(fontSize: 20),
-            //     ),
-            //   ),
-            // ),
             ListTile(
               title: InkWell(
                 onTap: () {
                   setState(() {
-                    // item = items[0];
-                    // Navigator.of(context).pop();
                     FirebaseAuth.instance.signOut();
                     Navigator.pushNamed(context, 'signin');
                   });
@@ -142,28 +119,7 @@ class _profileState extends State<profile> {
               ),
             ),
           ],
-        )
-            // child: ListView.custom(
-            //   childrenDelegate: SliverChildBuilderDelegate(
-            //     (BuildContext context, int index) {
-            //       return buildList(context, l[index]);
-            //     },
-            //     childCount: l.length,
-            //   ),
-            // ),
-            // child: Column(
-            //   children: [
-            //     ListView.builder(itemBuilder: itemBuilder)(
-            //       children: [
-            //         Text("Email: $e_mail"),
-            //         Text("Username: $user_name"),
-            //       ],
-            //     )
-
-            //     // DropdownMenuItem(child: widget.list),
-            //   ],
-            // ),
-            ),
+        )),
       ),
     );
   }
